@@ -5,8 +5,9 @@ I was wondering whether it would be faster to walk with or against lights in New
 Turns out it matters a lot -- Around a 30-40% difference at worst case scenarios, but depending on small implementation details going with/against can be super good or super bad.
 
 Assumptions that are probably incorrect
-1) Symmetric Lights -- that is a light is green as long as it is red.  Generally Avenue Lights are green longer than red
-2) No jay-walking.  We can also account for this by extending the amount of time for green vs red.
+
+1.Symmetric Lights -- that is a light is green as long as it is red.  Generally Avenue Lights are green longer than red
+2. No jay-walking.  We can also account for this by extending the amount of time for green vs red.
 
 Using the data from 5th ave and 45th we have a 45 second light with 5 second delay which would mean that you loose 11% of time by walking with traffic.
 ![durations_speed_3.1](/img/durations_speed_3.1.png)
