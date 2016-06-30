@@ -2,7 +2,11 @@
 RED = "RED"
 GREEN = "GREEN"
 DISTANCE = 2  # miles, arbitrary
-SPEED = 4.0 * (1.0 / 60.0) * (1.0 / 60.0)  # miles per second
+
+MIN_SPEED = 3.0
+MAX_SPEED = 4.0
+SPEED_STEP = 0.1
+
 BLOCKS_PER_MILE = 20
 
 DELAY_MIN = 0
@@ -19,12 +23,13 @@ LIGHT_LENGTH_STEP = 15
 
 
 class TrafficLight:
-    def __init__(self, location, delay, red_length, green_length):
+    def __init__(self, location, delay, red_length, green_length, speed):
         self.location = location
         self.delay = delay
         self.red_length = red_length
         self.green_length = green_length
         self.period = self.red_length + self.green_length
+        self.speed = speed
 
     def get_status(self, since_epoch):
         period_time = (since_epoch - self.delay + self.period) % self.period
@@ -54,9 +59,9 @@ class Simulation:
         intersections = []
         intersection_loc = 1.0 / BLOCKS_PER_MILE
         while intersection_loc < DISTANCE:
-            intersection_loc += 1.0 / BLOCKS_PER_MILE
             intersections.append(
                 TrafficLight(intersection_loc, delay * len(intersections), self.red_length, self.green_length))
+            intersection_loc += 1.0 / BLOCKS_PER_MILE
 
         total_seconds = 0
         total_stuck_at_light_count = 0
@@ -64,7 +69,7 @@ class Simulation:
             old_loc = 0
             seconds = i
             while old_loc < DISTANCE:
-                new_loc = old_loc + SPEED
+                new_loc = old_loc + self.speed
                 crossed_intersection = get_intersection(old_loc, new_loc, intersections)
                 if crossed_intersection is None or crossed_intersection.get_status(seconds) == GREEN:
                     old_loc = new_loc
@@ -78,16 +83,19 @@ class Simulation:
 
 
 def main():
-    print("delay, light_length, seconds_with, seconds_against, time_saved, time_saved_percent")
+    print("speed, delay, light_length, seconds_with, seconds_against, time_saved, time_saved_percent")
     for delay in xrange(DELAY_MIN, DELAY_MAX + 1, DELAY_STEP):
         for light_length in xrange(LIGHT_LENGTH_MIN, LIGHT_LENGTH_MAX + 1, LIGHT_LENGTH_STEP):
-            sim = Simulation(delay, light_length, light_length)
-            seconds_with, stuck_at_light_with = sim.simulate(True)
-            seconds_against, stuck_at_light_against = sim.simulate(False)
-            difference = seconds_against - seconds_with
-            percent = difference / float(seconds_against)
-            print("%s,%s,%s,%s,%s,%s" %
-                  (delay, light_length, seconds_with, seconds_against, difference, percent))
+            speed = MIN_SPEED
+            while speed <= MAX_SPEED:
+                sim = Simulation(delay, light_length, light_length, speed)
+                seconds_with, stuck_at_light_with = sim.simulate(True)
+                seconds_against, stuck_at_light_against = sim.simulate(False)
+                difference = seconds_against - seconds_with
+                percent = difference / float(seconds_against)
+                print("%s, %s,%s,%s,%s,%s,%s" %
+                      (speed, delay, light_length, seconds_with, seconds_against, difference, percent))
+                speed += SPEED_STEP
 
 
 if __name__ == "__main__":
