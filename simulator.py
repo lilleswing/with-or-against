@@ -23,13 +23,12 @@ LIGHT_LENGTH_STEP = 15
 
 
 class TrafficLight:
-    def __init__(self, location, delay, red_length, green_length, speed):
+    def __init__(self, location, delay, red_length, green_length):
         self.location = location
         self.delay = delay
         self.red_length = red_length
         self.green_length = green_length
         self.period = self.red_length + self.green_length
-        self.speed = speed
 
     def get_status(self, since_epoch):
         period_time = (since_epoch - self.delay + self.period) % self.period
@@ -46,10 +45,11 @@ def get_intersection(old_location, new_location, intersections):
 
 
 class Simulation:
-    def __init__(self, delay, red_length, green_length):
+    def __init__(self, delay, red_length, green_length, speed):
         self.delay = delay
         self.red_length = red_length
         self.green_length = green_length
+        self.speed = speed
 
     def simulate(self, with_traffic=True):
         stuck_at_light_count = 0
@@ -88,12 +88,13 @@ def main():
         for light_length in xrange(LIGHT_LENGTH_MIN, LIGHT_LENGTH_MAX + 1, LIGHT_LENGTH_STEP):
             speed = MIN_SPEED
             while speed <= MAX_SPEED:
-                sim = Simulation(delay, light_length, light_length, speed)
+                mps_speed = speed * (1/60.0) * (1/60.0)
+                sim = Simulation(delay, light_length, light_length, mps_speed)
                 seconds_with, stuck_at_light_with = sim.simulate(True)
                 seconds_against, stuck_at_light_against = sim.simulate(False)
                 difference = seconds_against - seconds_with
                 percent = difference / float(seconds_against)
-                print("%s, %s,%s,%s,%s,%s,%s" %
+                print("%s,%s,%s,%s,%s,%s,%s" %
                       (speed, delay, light_length, seconds_with, seconds_against, difference, percent))
                 speed += SPEED_STEP
 
