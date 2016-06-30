@@ -18,6 +18,9 @@ LIGHT_LENGTH_MIN = 30
 LIGHT_LENGTH_MAX = 90
 LIGHT_LENGTH_STEP = 15
 
+# Used for double precision issues
+DELTA = 0.001
+
 #############################################################
 import sys
 from multiprocessing import Pool
@@ -100,7 +103,7 @@ def main(n_processes):
     for delay in xrange(DELAY_MIN, DELAY_MAX + 1, DELAY_STEP):
         for light_length in xrange(LIGHT_LENGTH_MIN, LIGHT_LENGTH_MAX + 1, LIGHT_LENGTH_STEP):
             speed = MIN_SPEED
-            while speed <= MAX_SPEED:
+            while speed <= MAX_SPEED + DELTA:
                 d = {
                     "speed": speed,
                     "light_length": light_length,
