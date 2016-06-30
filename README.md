@@ -6,7 +6,7 @@ Turns out it matters a lot -- Around a 30-40% difference at worst case scenarios
 
 Assumptions that are probably incorrect
 
-1.Symmetric Lights -- that is a light is green as long as it is red.  Generally Avenue Lights are green longer than red
+1. Symmetric Lights -- that is a light is green as long as it is red.  Generally Avenue Lights are green longer than red
 2. No jay-walking.  We can also account for this by extending the amount of time for green vs red.
 
 Using the data from 5th ave and 45th we have a 45 second light with 5 second delay which would mean that you loose 11% of time by walking with traffic.
