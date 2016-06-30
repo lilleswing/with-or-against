@@ -16,7 +16,7 @@ DELAY_STEP = 1
 # Assume Symmetric Lights -- This is wrong and implementation already exists for specific red/green lengths
 LIGHT_LENGTH_MIN = 30
 LIGHT_LENGTH_MAX = 90
-LIGHT_LENGTH_STEP = 5
+LIGHT_LENGTH_STEP = 1
 
 # Used for double precision issues
 DELTA = 0.001
