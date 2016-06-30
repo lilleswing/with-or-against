@@ -71,26 +71,38 @@ def plot_light(desired_speed):
     plt.ylabel("Percentage of Time Saved")
     plt.savefig("img/durations_speed_%s.png" % desired_speed)
 
-def plot_speed(desired_light, desired_delay):
+
+def plot_speed(args):
+    """
+    :param args:  A set of (light_length, delay) tuples
+    :return:
+    """
     plt.cla()
     plt.clf()
-    speeds = {'x':[], 'y':[]}
+    speeds = {}
     for i in xrange(len(data)):
         row = [float(x.strip()) for x in data[i].split(',')]
         speed = row[0]
         delay = row[1]
         light_length = row[2]
-        if delay != desired_delay or light_length != desired_light:
+        key = (light_length, delay)
+        if key not in args:
             continue
         percent = row[-1]
-        speeds['x'].append(speed)
-        speeds['y'].append(percent)
+        if key not in speeds:
+            speeds[key] = {'x': [], 'y': []}
+        speeds[key]['x'].append(speed)
+        speeds[key]['y'].append(percent)
+
 
     plots = []
-    title = "light_length=%s,delay=%s" % (desired_light, desired_delay)
-    plot(title, speeds['x'], speeds['y'], plots)
+    for x in speeds.keys():
+        if x not in args:
+            continue
+        title = "light_length=%s,delay=%s" % x
+        plot(title, speeds[x]['x'], speeds[x]['y'], plots)
     plt.legend(tuple([x[0] for x in plots]), tuple([x[1] for x in plots]), loc='best')
-    plt.title("At light_length = %s and delay = %s" % (desired_light, desired_delay))
+    plt.title("Speeds")
     plt.xlabel("Speed MPH")
     plt.ylabel("Percentage of Time Saved")
     plt.savefig("img/speed_vs_time.png")
@@ -101,7 +113,7 @@ def main():
     plot_delay(4.0)
     plot_light(3.1)
     plot_light(4.0)
-    plot_speed(45.0, 5.0)
+    plot_speed({(40.0, 5.0), (45, 5.0), (50, 5.0)})
 
 
 if __name__ == "__main__":
