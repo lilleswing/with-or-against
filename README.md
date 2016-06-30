@@ -18,7 +18,7 @@ The first graphs were assuming walking at 3.1 MPH (19 minute miles).  If you rai
 ![light_seconds_speed_4.0](/img/light_seconds_speed_4.0.png)
 
  But a good rule of thumb is if you are a fast walker to with traffic, and a slower walker go against traffic.
- ![speed_vs_time](/imt/speed_vs_time.png)
+ ![speed_vs_time](/img/speed_vs_time.png)
  
 
 After this analysis I still had some questions and was hoping you would know more.
