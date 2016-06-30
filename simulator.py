@@ -18,8 +18,9 @@ LIGHT_LENGTH_MIN = 30
 LIGHT_LENGTH_MAX = 90
 LIGHT_LENGTH_STEP = 15
 
-
 #############################################################
+import sys
+from multiprocessing import Pool
 
 
 class TrafficLight:
@@ -82,22 +83,37 @@ class Simulation:
                 float(total_stuck_at_light_count) / float(intersections[0].period))
 
 
-def main():
+def run_one(d):
+    mps_speed = d['speed'] * (1 / 60.0) * (1 / 60.0)
+    sim = Simulation(d['delay'], d['light_length'], d['light_length'], mps_speed)
+    seconds_with, stuck_at_light_with = sim.simulate(True)
+    seconds_against, stuck_at_light_against = sim.simulate(False)
+    difference = seconds_against - seconds_with
+    percent = difference / float(seconds_against)
+    return "%s,%s,%s,%s,%s,%s,%s" % \
+           (d['speed'], d['delay'], d['light_length'], seconds_with, seconds_against, difference, percent)
+
+
+def main(n_processes):
     print("speed, delay, light_length, seconds_with, seconds_against, time_saved, time_saved_percent")
+    args = list()
     for delay in xrange(DELAY_MIN, DELAY_MAX + 1, DELAY_STEP):
         for light_length in xrange(LIGHT_LENGTH_MIN, LIGHT_LENGTH_MAX + 1, LIGHT_LENGTH_STEP):
             speed = MIN_SPEED
             while speed <= MAX_SPEED:
-                mps_speed = speed * (1/60.0) * (1/60.0)
-                sim = Simulation(delay, light_length, light_length, mps_speed)
-                seconds_with, stuck_at_light_with = sim.simulate(True)
-                seconds_against, stuck_at_light_against = sim.simulate(False)
-                difference = seconds_against - seconds_with
-                percent = difference / float(seconds_against)
-                print("%s,%s,%s,%s,%s,%s,%s" %
-                      (speed, delay, light_length, seconds_with, seconds_against, difference, percent))
+                d = {
+                    "speed": speed,
+                    "light_length": light_length,
+                    "delay": delay
+                }
+                args.append(d)
                 speed += SPEED_STEP
+
+    p = Pool(n_processes)
+    results = p.map(run_one, args)
+    for arg in results:
+        print arg
 
 
 if __name__ == "__main__":
-    main()
+    main(int(sys.argv[1]))

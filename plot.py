@@ -37,7 +37,7 @@ def plot_delay(desired_speed):
     plt.title("At Speed = %s" % desired_speed)
     plt.xlabel("Seconds of Light")
     plt.ylabel("Percentage of Time Saved")
-    plt.savefig("light_seconds_speed_%s.png" % desired_speed)
+    plt.savefig("img/light_seconds_speed_%s.png" % desired_speed)
 
 
 def plot_light(desired_speed):
@@ -55,7 +55,7 @@ def plot_light(desired_speed):
         if light_length not in light_lengths:
             light_lengths[light_length] = {}
             light_lengths[light_length]['x'] = list()
-            light_lengths[delay]['y'] = list()
+            light_lengths[light_length]['y'] = list()
         light_lengths[light_length]['x'].append(delay)
         light_lengths[light_length]['y'].append(percent)
 
@@ -69,7 +69,7 @@ def plot_light(desired_speed):
     plt.title("At Speed = %s" % desired_speed)
     plt.xlabel("Delay Seconds")
     plt.ylabel("Percentage of Time Saved")
-    plt.savefig("durations_speed_%s.png")
+    plt.savefig("img/durations_speed_%s.png" % desired_speed)
 
 def plot_speed(desired_light, desired_delay):
     plt.cla()
@@ -93,7 +93,7 @@ def plot_speed(desired_light, desired_delay):
     plt.title("At light_length = %s and delay = %s" % (desired_light, desired_delay))
     plt.xlabel("Speed MPH")
     plt.ylabel("Percentage of Time Saved")
-    plt.savefig("speed_vs_time.png")
+    plt.savefig("img/speed_vs_time.png")
 
 
 def main():
