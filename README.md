@@ -14,8 +14,8 @@ Using the data from 5th ave and 45th we have a 45 second light with 5 second del
 
 The first graphs were assuming walking at 3.1 MPH (19 minute miles).  If you raise that to 4.0 MPH (15 minute miles) All of a sudden you hit the sweet spot at 45 second lights and get huge gains.  I don't think you can say categorically it is always better because small differences in any of the variables make a big change in efficiency. Here are the graphs for 4.0 mph.
 
-![durations_speed_4.0](/img/durations_speed_4.0.png)
-![light_seconds_speed_4.0](/img/light_seconds_speed_4.0.png)
+![durations_speed_4.0.1](/img/durations_speed_4.0.1.png)
+![light_seconds_speed_4.0.1](/img/light_seconds_speed_4.0.1.png)
 
  But a good rule of thumb is if you are a fast walker to with traffic, and a slower walker go against traffic.
  ![speed_vs_time](/img/speed_vs_time.png)
