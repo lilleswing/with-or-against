@@ -61,9 +61,9 @@ def plot_light(desired_speed):
 
     plots = []
     for x in light_lengths.keys():
-        if x not in {30, 45, 60, 75, 90}:
+        if x not in {35, 40, 45, 50, 55}:
             continue
-        title = "%s second delay" % x
+        title = "%s light_length" % x
         plot(title, light_lengths[x]['x'], light_lengths[x]['y'], plots)
     plt.legend(tuple([x[0] for x in plots]), tuple([x[1] for x in plots]), loc='best')
     plt.title("At Speed = %s" % desired_speed)
